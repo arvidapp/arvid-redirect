@@ -2,34 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Open ARvid</title>
+  <title>Open or Download ARvid</title>
 
-  <!-- JS redirect into your custom scheme -->
+  <!-- Attempt JS redirect into your custom scheme -->
   <script>
     (function() {
-      // 1. Grab userId from ?userId=…
       const params = new URLSearchParams(location.search);
       const userId = params.get('userId') || '';
-      // 2. Build the custom-scheme URL
-      const redirectURL = `arvidcloud://profile?userId=${encodeURIComponent(userId)}`;
-      // 3. Redirect
-      window.location.replace(redirectURL);
+      const deepLink = `arvidcloud://profile?userId=${encodeURIComponent(userId)}`;
+
+      // Try to open the app
+      window.location.replace(deepLink);
+
+      // (Optional) After a short delay, if still on this page,
+      // you could auto-redirect to the App Store too:
+      // setTimeout(() => {
+      //   window.location.replace('https://apps.apple.com/app/id1276546297');
+      // }, 2000);
     })();
   </script>
 </head>
 <body>
-  <p>Opening ARvid… if nothing happens, <a id="fallback" href="#">click here</a>.</p>
+  <p>
+    Opening ARvid…<br>
+    If you don’t have it installed, <a id="fallback" href="">download it here</a>.
+  </p>
 
-  <!-- Fallback link injector -->
+  <!-- Fallback points to the App Store -->
   <script>
-    (function() {
-      const params = new URLSearchParams(location.search);
-      const userId = params.get('userId') || '';
-      document.getElementById('fallback').href =
-        `arvidcloud://profile?userId=${encodeURIComponent(userId)}`;
-    })();
+    document.getElementById('fallback').href =
+      'https://apps.apple.com/app/id1276546297';
+    document.getElementById('fallback').textContent =
+      'Download ARvid on the App Store';
   </script>
 </body>
 </html>
-
-
