@@ -8,46 +8,64 @@
       font-family: -apple-system, sans-serif;
       text-align: center;
       padding: 2rem;
+      background: #f9f9f9;
     }
-    button {
-      font-size: 1.25rem;
-      padding: 0.75rem 1.5rem;
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 1.75rem;
+      color: #333;
+    }
+    .btn {
+      display: inline-block;
       border: none;
       border-radius: 8px;
-      background: #007aff;
       color: white;
-    }
-    a {
-      display: block;
-      margin-top: 1.5rem;
-      color: #007aff;
+      cursor: pointer;
+      font-weight: 600;
       text-decoration: none;
+    }
+    #open-btn {
+      font-size: 1.5rem;
+      padding: 1rem 2rem;
+      background: #007aff;
+      margin-bottom: 1.5rem;
+    }
+    #download-btn {
+      font-size: 1.25rem;
+      padding: 0.85rem 1.75rem;
+      background: #34c759;
+      margin-top: 1.5rem;
+    }
+    #fallback-text {
+      margin: 1rem 0;
+      color: #555;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
   <h1>Welcome to ARvid</h1>
-  <button id="open-btn">Open ARvid</button>
-  <a id="download" href="https://apps.apple.com/app/id1276546297">
-    Download ARvid on the App Store
+
+  <!-- Open Button -->
+  <button id="open-btn" class="btn">Open ARvid</button>
+
+  <!-- Explanatory Text -->
+  <div id="fallback-text">
+    If you don't have ARvid installed,<br>
+    download it on the App Store
+  </div>
+
+  <!-- Download Button -->
+  <a id="download-btn" class="btn" href="https://apps.apple.com/app/id1276546297">
+    Download ARvid
   </a>
 
   <script>
     document.getElementById('open-btn').addEventListener('click', () => {
-      // 1. Grab userId from query string
       const params = new URLSearchParams(location.search);
       const userId = params.get('userId') || '';
-
-      // 2. Build your custom‐scheme URL
       const deepLink = `arvidcloud://profile?userId=${encodeURIComponent(userId)}`;
-
-      // 3. Launch the app (this prompt is unavoidable)
       window.location = deepLink;
-
-      // 4. After 1.5 s, if the app didn’t open, go to the App Store
-      setTimeout(() => {
-        window.location = 'https://apps.apple.com/app/id1276546297';
-      }, 1500);
     });
   </script>
 </body>
