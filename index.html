@@ -3,36 +3,52 @@
 <head>
   <meta charset="utf-8">
   <title>Open or Download ARvid</title>
+  <style>
+    body {
+      font-family: -apple-system, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    button {
+      font-size: 1.25rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: #007aff;
+      color: white;
+    }
+    a {
+      display: block;
+      margin-top: 1.5rem;
+      color: #007aff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to ARvid</h1>
+  <button id="open-btn">Open ARvid</button>
+  <a id="download" href="https://apps.apple.com/app/id1276546297">
+    Download ARvid on the App Store
+  </a>
+
   <script>
-    (function() {
-      // 1. Grab userId
+    document.getElementById('open-btn').addEventListener('click', () => {
+      // 1. Grab userId from query string
       const params = new URLSearchParams(location.search);
       const userId = params.get('userId') || '';
 
-      // 2. Build the deep‐link and the App Store URL
+      // 2. Build your custom‐scheme URL
       const deepLink = `arvidcloud://profile?userId=${encodeURIComponent(userId)}`;
-      const appStoreURL = 'https://apps.apple.com/app/id1276546297';
 
-      // 3. Fire the deep link via an iframe
-      const ifr = document.createElement('iframe');
-      ifr.style.display = 'none';
-      ifr.src = deepLink;
-      document.body.appendChild(ifr);
+      // 3. Launch the app (this prompt is unavoidable)
+      window.location = deepLink;
 
-      // 4. After 1.5s, assume it failed and send to the App Store
+      // 4. After 1.5 s, if the app didn’t open, go to the App Store
       setTimeout(() => {
-        window.location.href = appStoreURL;
+        window.location = 'https://apps.apple.com/app/id1276546297';
       }, 1500);
-    })();
+    });
   </script>
-</head>
-<body>
-  <p>
-    Opening ARvid…<br>
-    If it doesn’t install or open automatically,  
-    <a id="download" href="https://apps.apple.com/app/id1276546297">
-      Download ARvid on the App Store
-    </a>.
-  </p>
 </body>
 </html>
